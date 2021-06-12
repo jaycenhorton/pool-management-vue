@@ -618,9 +618,13 @@ export default {
       return this.type === 'SHARED_POOL' || !this.crp.rights.canChangeWeights;
     },
     getPercentage(token) {
-      return this.totalWeight == 0
-        ? 0
-        : (this.weights[token] / this.totalWeight) * 100;
+      if(!this.price.values[token]) {
+        return this.weights[token] ?? 0;
+      } else {
+        return this.totalWeight == 0
+          ? 0
+          : (this.weights[token] / this.totalWeight) * 100;
+      }
     },
     currentDenorm(token) {
       const pct = this.getPercentage(token);
